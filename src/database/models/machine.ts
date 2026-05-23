@@ -8,7 +8,11 @@ import {
 } from 'typeorm';
 import { Company } from './company';
 
-@Entity()
+@Entity({
+  database: 'enterprise_hub_nest',
+  schema: 'public',
+  name: 'machines',
+})
 export class Machine {
   @PrimaryGeneratedColumn('uuid')
   id!: string;

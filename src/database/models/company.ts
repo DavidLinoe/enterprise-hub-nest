@@ -8,7 +8,11 @@ import {
 import { User } from './user';
 import { Machine } from './machine';
 
-@Entity()
+@Entity({
+  database: 'enterprise_hub_nest',
+  schema: 'public',
+  name: 'companies',
+})
 export class Company {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
