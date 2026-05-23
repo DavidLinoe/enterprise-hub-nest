@@ -10,10 +10,23 @@ export class AuthRepository {
     private usersRepository: Repository<User>,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  async login(user: Partial<User>): Promise<User | null> {
+    return await this.usersRepository.findOne({
+      where: {
+        email: user.email,
+        password: user.password,
+      },
+    });
   }
-  getHello(): string {
-    return 'Hello World!';
+
+  async register(user: Partial<User>): Promise<User> {
+    const entity = this.usersRepository.create(user);
+    return await this.usersRepository.save(entity);
+  }
+
+  async findAll(companyId: string): Promise<[User[], number]> {
+    return await this.usersRepository.findAndCount({
+      where: { companyId },
+    });
   }
 }
