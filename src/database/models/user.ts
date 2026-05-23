@@ -3,7 +3,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Company } from './company';
 
 @Entity()
 export class User {
@@ -22,8 +25,14 @@ export class User {
   @Column({ default: 'USER', enum: ['ADMIN', 'USER'] })
   role!: string;
 
-  @Column({ default: true })
-  companyId!: boolean;
+  @Column()
+  companyId!: string;
+
+  @ManyToOne(() => Company, (company) => company.users, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'companyId' })
+  company!: Company;
 
   @CreateDateColumn()
   createdAt!: Date;

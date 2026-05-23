@@ -3,7 +3,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { User } from './user';
+import { Machine } from './machine';
 
 @Entity()
 export class Company {
@@ -18,4 +21,10 @@ export class Company {
 
   @CreateDateColumn()
   createdAt!: Date;
+
+  @OneToMany(() => User, (user) => user.company)
+  users!: User[];
+
+  @OneToMany(() => Machine, (machine) => machine.company)
+  machines!: Machine[];
 }

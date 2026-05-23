@@ -3,7 +3,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Company } from './company';
 
 @Entity()
 export class Machine {
@@ -16,8 +19,14 @@ export class Machine {
   @Column({ unique: true })
   serialNumber!: string;
 
-  @Column({ default: true })
-  companyId!: boolean;
+  @Column()
+  companyId!: string;
+
+  @ManyToOne(() => Company, (company) => company.machines, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'companyId' })
+  company!: Company;
 
   @CreateDateColumn()
   createdAt!: Date;
