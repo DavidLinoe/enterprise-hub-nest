@@ -7,38 +7,38 @@ import { Repository } from 'typeorm';
 export class CompaniesRepository {
   constructor(
     @InjectRepository(Company)
-    private companysRepository: Repository<Company>,
+    private companiesRepository: Repository<Company>,
   ) {}
 
   async find(userId: string): Promise<[Company[], number]> {
-    return await this.companysRepository.findAndCount({
+    return await this.companiesRepository.findAndCount({
       where: { users: { id: userId } },
     });
   }
 
   async create(company: Partial<Company>): Promise<Company> {
-    const entity = this.companysRepository.create(company);
-    return await this.companysRepository.save(entity);
+    const entity = this.companiesRepository.create(company);
+    return await this.companiesRepository.save(entity);
   }
 
   async update(company: Partial<Company>): Promise<Company | null> {
     if (!company.id) {
       return null;
     }
-    return await this.companysRepository
+    return await this.companiesRepository
       .update(company.id, company)
       .then(() => {
-        return this.companysRepository.findOne({ where: { id: company.id } });
+        return this.companiesRepository.findOne({ where: { id: company.id } });
       });
   }
 
   async delete(companyId: string): Promise<Company | null> {
-    const entity = await this.companysRepository.findOne({
+    const entity = await this.companiesRepository.findOne({
       where: { id: companyId },
     });
     if (!entity) {
       return null;
     }
-    return await this.companysRepository.remove(entity);
+    return await this.companiesRepository.remove(entity);
   }
 }
