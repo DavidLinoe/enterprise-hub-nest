@@ -21,7 +21,7 @@ export class AuthController {
   }
 
   @Post('register')
-  @ApiOperation({ summary: 'Create a new user' })
+  @ApiOperation({ summary: 'Create a new Admin user' })
   @ApiBody({ type: RegisterDto })
   async register(
     @Body() createAuthDto: RegisterDto,
