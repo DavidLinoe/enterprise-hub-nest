@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBody } from '@nestjs/swagger';
 import { AuthService } from '../services/auth.service';
 import { User } from 'src/database/models/user';
@@ -10,14 +10,6 @@ import { RegisterDto } from '../dtos/register.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-  @Get()
-  @ApiOperation({ summary: 'List users for a company' })
-  async getHello(
-    @Query('companyId') companyId: string,
-  ): Promise<ResponseApi<User[] | null>> {
-    return await this.authService.findAll(companyId);
-  }
 
   @Post('login')
   @ApiOperation({ summary: 'Authenticate a user' })

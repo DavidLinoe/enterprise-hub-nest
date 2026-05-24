@@ -23,10 +23,4 @@ export class AuthRepository {
     const entity = this.usersRepository.create(user);
     return await this.usersRepository.save(entity);
   }
-
-  async findAll(companyId: string): Promise<[User[], number]> {
-    return await this.usersRepository.findAndCount({
-      where: { companyId },
-    });
-  }
 }

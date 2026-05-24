@@ -8,33 +8,6 @@ import { RegisterDto } from '../dtos/register.dto';
 export class AuthService {
   constructor(private authRepository: AuthRepository) {}
 
-  async findAll(companyId: string): Promise<ResponseApi<User[] | null>> {
-    if (!companyId) {
-      return {
-        statusCode: 400,
-        message: 'Company ID is required',
-        data: null,
-      };
-    }
-    return await this.authRepository
-      .findAll(companyId)
-      .then(([data, count]: [User[], number]) => {
-        return {
-          statusCode: 200,
-          message: 'Users found',
-          data,
-          count,
-        };
-      })
-      .catch((error: Error) => {
-        return {
-          statusCode: 500,
-          message: 'An error occurred while fetching users: ' + error.message,
-          data: null,
-        };
-      });
-  }
-
   async login(user: Partial<User>): Promise<ResponseApi<User | null>> {
     if (!user || !user.email || !user.password) {
       return {
