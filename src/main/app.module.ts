@@ -5,9 +5,16 @@ import { AuthModule } from 'src/features/auth/auth.module';
 import { DatabaseModule } from 'src/database/config/database.module';
 import { CompaniesModule } from 'src/features/companies/companies.module';
 import { UsersModule } from 'src/features/users/users.module';
+import { MachinesModule } from 'src/features/machines/machines.module';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, CompaniesModule, UsersModule],
+  imports: [
+    DatabaseModule,
+    AuthModule,
+    CompaniesModule,
+    UsersModule,
+    MachinesModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
