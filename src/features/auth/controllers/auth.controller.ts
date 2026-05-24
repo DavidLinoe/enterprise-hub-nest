@@ -5,12 +5,14 @@ import { User } from 'src/database/models/user';
 import type { ResponseApi } from 'src/utils/models/responseApi.model';
 import { LoginDto } from '../dtos/login.dto';
 import { RegisterDto } from '../dtos/register.dto';
+import { Public } from 'src/utils/decorators/public.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post('login')
   @ApiOperation({ summary: 'Authenticate a user' })
   @ApiBody({ type: LoginDto })
@@ -20,6 +22,7 @@ export class AuthController {
     return await this.authService.login(credentials);
   }
 
+  @Public()
   @Post('register')
   @ApiOperation({ summary: 'Create a new Admin user' })
   @ApiBody({ type: RegisterDto })
