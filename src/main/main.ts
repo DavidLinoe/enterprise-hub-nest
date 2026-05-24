@@ -11,9 +11,16 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Hub')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'bearer',
+    )
     .build();
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  const documentFactory = () => {
+    const document = SwaggerModule.createDocument(app, config);
+    document.security = [{ bearer: [] }];
+    return document;
+  };
   SwaggerModule.setup('swagger', app, documentFactory);
 
   await app.listen(process.env.PORT ?? 3000);
