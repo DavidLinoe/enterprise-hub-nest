@@ -3,10 +3,13 @@ import { AuthRepository } from '../repositories/auth.repository';
 import { User } from 'src/database/models/user';
 import { ResponseApi } from 'src/utils/models/responseApi.model';
 import { RegisterDto } from '../dtos/register.dto';
-
+import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
-  constructor(private authRepository: AuthRepository) {}
+  constructor(
+    private authRepository: AuthRepository,
+    private jwtService: JwtService,
+  ) {}
 
   async login(user: Partial<User>): Promise<ResponseApi<User | null>> {
     if (!user || !user.email || !user.password) {
@@ -19,7 +22,7 @@ export class AuthService {
 
     return await this.authRepository
       .login(user)
-      .then((data: User | null) => {
+      .then(async (data: User | null) => {
         if (!data) {
           return {
             statusCode: 401,
@@ -30,7 +33,13 @@ export class AuthService {
         return {
           statusCode: 200,
           message: 'Login successful',
-          data,
+          data: {
+            ...data,
+            token: await this.jwtService.signAsync({
+              userId: data.id,
+              role: data.role,
+            }),
+          },
         };
       })
       .catch((error: Error) => {
