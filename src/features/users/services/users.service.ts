@@ -7,16 +7,16 @@ import { User } from 'src/database/models/user';
 export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
-  async find(userId: string): Promise<ResponseApi<User[] | null>> {
-    if (!userId) {
+  async find(companyId: string): Promise<ResponseApi<User[] | null>> {
+    if (!companyId) {
       return {
         statusCode: 400,
-        message: 'User ID is required',
+        message: 'Company ID is required',
         data: null,
       };
     }
     return await this.usersRepository
-      .find(userId)
+      .find(companyId)
       .then(([data, count]: [User[], number]) => {
         return {
           statusCode: 200,
@@ -33,9 +33,9 @@ export class UsersService {
         };
       });
   }
-  async findAll(): Promise<ResponseApi<User[] | null>> {
+  async findAll(user: User): Promise<ResponseApi<User[] | null>> {
     return await this.usersRepository
-      .findAll()
+      .findAll(user)
       .then(([data, count]: [User[], number]) => {
         return {
           statusCode: 200,

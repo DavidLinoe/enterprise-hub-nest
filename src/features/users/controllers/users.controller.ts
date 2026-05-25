@@ -21,18 +21,12 @@ import { DeleteUsersDto } from '../dtos/delete.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('/all')
-  @ApiOperation({ summary: 'List All Users' })
-  async findAll(): Promise<ResponseApi<User[] | null>> {
-    return await this.usersService.findAll();
-  }
-
-  @Get(':id')
+  @Get()
   @ApiOperation({ summary: 'List User' })
   async find(
-    @Query() { userId }: FindUsersDto,
+    @Query() { companyId }: FindUsersDto,
   ): Promise<ResponseApi<User[] | null>> {
-    return await this.usersService.find(userId);
+    return await this.usersService.find(companyId);
   }
 
   @Post()
