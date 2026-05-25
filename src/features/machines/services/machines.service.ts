@@ -7,7 +7,7 @@ import { Machine } from 'src/database/models/machine';
 export class MachinesService {
   constructor(private machinesRepository: MachinesRepository) {}
 
-  async find(machineId: string): Promise<ResponseApi<Machine[] | null>> {
+  async find(machineId?: string): Promise<ResponseApi<Machine[] | null>> {
     if (!machineId) {
       return {
         statusCode: 400,
@@ -17,6 +17,26 @@ export class MachinesService {
     }
     return await this.machinesRepository
       .find(machineId)
+      .then(([data, count]: [Machine[], number]) => {
+        return {
+          statusCode: 200,
+          message: 'Machines found',
+          data,
+          count,
+        };
+      })
+      .catch((error: Error) => {
+        return {
+          statusCode: 500,
+          message:
+            'An error occurred while fetching Machines: ' + error.message,
+          data: null,
+        };
+      });
+  }
+  async findAll(): Promise<ResponseApi<Machine[] | null>> {
+    return await this.machinesRepository
+      .findAll()
       .then(([data, count]: [Machine[], number]) => {
         return {
           statusCode: 200,

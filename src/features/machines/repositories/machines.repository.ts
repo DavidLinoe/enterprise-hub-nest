@@ -16,6 +16,12 @@ export class MachinesRepository {
     });
   }
 
+  async findAll(): Promise<[Machine[], number]> {
+    return await this.machinesRepository.findAndCount({
+      where: {},
+    });
+  }
+
   async create(machine: Partial<Machine>): Promise<Machine> {
     const entity = this.machinesRepository.create(machine);
     return await this.machinesRepository.save(entity);

@@ -21,6 +21,12 @@ import { Machine } from 'src/database/models/machine';
 export class MachinesController {
   constructor(private readonly machinesService: MachinesService) {}
 
+  @Get('/all')
+  @ApiOperation({ summary: 'List All Machines' })
+  async findAll(): Promise<ResponseApi<Machine[] | null>> {
+    return await this.machinesService.findAll();
+  }
+
   @Get()
   @ApiOperation({ summary: 'List Machines' })
   async find(
