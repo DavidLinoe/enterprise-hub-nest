@@ -36,6 +36,7 @@ export class AuthService {
           data: {
             ...data,
             token: await this.jwtService.signAsync({
+              companyId: data.companyId,
               userId: data.id,
               role: data.role,
             }),

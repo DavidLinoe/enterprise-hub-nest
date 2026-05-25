@@ -85,19 +85,6 @@ export class UsersService {
   }
 
   async update(user: User): Promise<ResponseApi<User | null>> {
-    if (
-      !user ||
-      !user.name ||
-      !user.email ||
-      !user.password ||
-      !user.companyId
-    ) {
-      return {
-        statusCode: 400,
-        message: 'User data is required',
-        data: null,
-      };
-    }
     return await this.usersRepository
       .update(user)
       .then((data: User | null) => {
