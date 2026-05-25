@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/database/models/user';
 import { Repository } from 'typeorm';
+import { rlsRepo } from 'src/database/rls/rls.context';
 
 @Injectable()
 export class AuthRepository {
@@ -10,8 +11,12 @@ export class AuthRepository {
     private usersRepository: Repository<User>,
   ) {}
 
+  private get repo(): Repository<User> {
+    return rlsRepo(this.usersRepository, User);
+  }
+
   async login(user: Partial<User>): Promise<User | null> {
-    return await this.usersRepository.findOne({
+    return await this.repo.findOne({
       where: {
         email: user.email,
         password: user.password,
@@ -20,7 +25,7 @@ export class AuthRepository {
   }
 
   async register(user: Partial<User>): Promise<User> {
-    const entity = this.usersRepository.create(user);
-    return await this.usersRepository.save(entity);
+    const entity = this.repo.create(user);
+    return await this.repo.save(entity);
   }
 }
