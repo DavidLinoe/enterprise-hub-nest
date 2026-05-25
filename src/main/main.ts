@@ -8,6 +8,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalInterceptors(new ResponseStatusInterceptor());
 
+  app.enableCors();
+
   const config = new DocumentBuilder()
     .setTitle('Hub')
     .setVersion('1.0')

@@ -21,8 +21,14 @@ import { DeleteUsersDto } from '../dtos/delete.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get()
-  @ApiOperation({ summary: 'List Users' })
+  @Get('/all')
+  @ApiOperation({ summary: 'List All Users' })
+  async findAll(): Promise<ResponseApi<User[] | null>> {
+    return await this.usersService.findAll();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'List User' })
   async find(
     @Query() { userId }: FindUsersDto,
   ): Promise<ResponseApi<User[] | null>> {

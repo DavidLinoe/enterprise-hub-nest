@@ -16,6 +16,12 @@ export class UsersRepository {
     });
   }
 
+  async findAll(): Promise<[User[], number]> {
+    return await this.usersRepository.findAndCount({
+      where: {},
+    });
+  }
+
   async create(user: Partial<User>): Promise<User> {
     const entity = this.usersRepository.create(user);
     return await this.usersRepository.save(entity);

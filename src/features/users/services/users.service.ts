@@ -20,6 +20,25 @@ export class UsersService {
       .then(([data, count]: [User[], number]) => {
         return {
           statusCode: 200,
+          message: 'User found',
+          data,
+          count,
+        };
+      })
+      .catch((error: Error) => {
+        return {
+          statusCode: 500,
+          message: 'An error occurred while fetching user: ' + error.message,
+          data: null,
+        };
+      });
+  }
+  async findAll(): Promise<ResponseApi<User[] | null>> {
+    return await this.usersRepository
+      .findAll()
+      .then(([data, count]: [User[], number]) => {
+        return {
+          statusCode: 200,
           message: 'Users found',
           data,
           count,
